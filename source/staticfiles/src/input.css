@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+/*@plugin "@tailwindcss/forms";*/
+/*@plugin "@tailwindcss/typography";*/
+
+
+@theme {
+  --font-allura: "Allura", cursive;
+    --font-display: "Roboto", sans-serif;
+  /*--font-display--font-feature-settings: "cv02", "cv03", "cv04", "cv11";*/
+  /*--font-display--font-variation-settings: "opsz" 32;*/
+}
+@keyframes scroll-horizontal {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-scroll-horizontal {
+    display: flex;
+    width: 200%;
+    animation: scroll-horizontal 40s linear infinite;
+}

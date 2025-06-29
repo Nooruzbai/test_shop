@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales Report{% endblock %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
+  <div class="text-center border-b pb-4 mb-8">
+    <h1 class="text-3xl font-bold text-gray-800">Sales Report</h1>
+    <p class="text-md text-gray-500 mt-2">
+      За период от {{ start_date|date:"F d, Y" }} до {{ end_date|date:"F d, Y" }}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="bg-blue-50 p-6 rounded-lg text-center">
+      <h3 class="text-lg font-semibold text-blue-800">Общая Выручка</h3>
+      <p class="text-2xl font-bold text-blue-900 mt-2">{{ total_revenue|floatformat:2 }} KZT</p>
+    </div>
+    <div class="bg-green-50 p-6 rounded-lg text-center">
+      <h3 class="text-lg font-semibold text-green-800">Количество заказов</h3>
+      <p class="text-2xl font-bold text-green-900 mt-2">{{ total_orders_count }}</p>
+    </div>
+    <div class="bg-purple-50 p-6 rounded-lg">
+      <h3 class="text-lg font-semibold text-purple-800 text-center">Самый популярный товар </h3>
+      {% if most_popular_product %}
+        <p class="text-xl font-bold text-purple-900 mt-2 text-center">{{ most_popular_product.product__name }}</p>
+        <p class="text-sm text-gray-600 text-center">({{ most_popular_product.total_quantity_sold }} штуки продано)</p>
+      {% else %}
+        <p class="text-xl font-bold text-purple-900 mt-2 text-center">N/A</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mb-10">
+    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Топ-5 клиентов по выручке</h2>
+    {% if top_customers %}
+      <ul class="divide-y divide-gray-200">
+        {% for customer in top_customers %}
+          <li class="flex justify-between items-center py-3">
+            <span class="text-gray-800 font-medium">{{ forloop.counter }}. {{ customer.name }}</span>
+            <span class="bg-gray-200 text-gray-800 text-sm font-semibold px-3 py-1 rounded-full">{{ customer.total|floatformat:2 }} KZT</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center py-4 text-gray-500">Нету данных о клиенте</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Таблица всех заказов </h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-3 px-4 text-left font-semibold text-sm text-gray-600 uppercase">Дата</th>
+            <th class="py-3 px-4 text-left font-semibold text-sm text-gray-600 uppercase">Клиент</th>
+            <th class="py-3 px-4 text-left font-semibold text-sm text-gray-600 uppercase">Сумма (KZT)</th>
+            <th class="py-3 px-4 text-left font-semibold text-sm text-gray-600 uppercase">Статус</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-700 divide-y divide-gray-200">
+          {% for order in all_orders %}
+            <tr>
+              <td class="py-3 px-4">{{ order.created_at|date:"Y-m-d H:i" }}</td>
+              <td class="py-3 px-4">{{ order.user.get_full_name|default:order.user.full_name }}</td>
+              <td class="py-3 px-4">{{ order.calculated_total|floatformat:2 }}</td>
+              <td class="py-3 px-4">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                  {% if order.status == 'shipped' %} bg-green-100 text-green-800
+                  {% elif order.status == 'confirmed' %} bg-blue-100 text-blue-800
+                  {% elif order.status == 'cancelled' %} bg-red-100 text-red-800
+                  {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                  {{ order.get_status_display }}
+                </span>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="text-center py-6 text-gray-500">Заказов не найдено</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

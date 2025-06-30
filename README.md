@@ -14,9 +14,6 @@ Jinja2 + WeasyPrint
 Docker
 uv
 
-Сперава нужно установить UV пакетный менеджер
-
-Зависимости WeasyPrint в зависимости от ОС (Например MAC ==> brew install pango cairo libffi gdk-pixbuf или brew install weasyprint)
 
 
 Чтобы установить и запустить приложение, пожалуйста, следуйте инструкциям ниже:

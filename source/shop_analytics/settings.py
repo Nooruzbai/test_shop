@@ -91,7 +91,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [BASE_DIR / 'source/report/templates'],
+        "DIRS": [BASE_DIR / "source/report/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -171,7 +171,7 @@ SWAGGER_SETTINGS = {
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"

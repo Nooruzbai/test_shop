@@ -19,9 +19,9 @@ from analytics.models import Order, OrderProduct
 class GetSalesReportView(APIView):
     @swagger_auto_schema(
         operation_description="Generate a sales report PDF for a specified date range. "
-                             "The report includes total revenue, total orders, top 5 customers by revenue, "
-                             "and the most popular product by quantity sold. If no dates are provided, "
-                             "defaults to the last 30 days.",
+        "The report includes total revenue, total orders, top 5 customers by revenue, "
+        "and the most popular product by quantity sold. If no dates are provided, "
+        "defaults to the last 30 days.",
         manual_parameters=[
             openapi.Parameter(
                 name="start_date",
@@ -151,7 +151,9 @@ class GetSalesReportView(APIView):
 # @login_required # Ensure user is logged in
 def get_sales_html(request):
     try:
-        start_date_str = request.GET.get("start_date") # Use request.GET for query parameters in function-based views
+        start_date_str = request.GET.get(
+            "start_date"
+        )  # Use request.GET for query parameters in function-based views
         end_date_str = request.GET.get("end_date")
 
         if not end_date_str:
@@ -173,7 +175,7 @@ def get_sales_html(request):
     except ValueError:
         return HttpResponse(
             "Invalid date format. Use YYYY-MM-DD.",
-            status=400 # Bad Request status code
+            status=400,  # Bad Request status code
         )
 
     relevant_statuses = [Order.StatusChoices.CONFIRMED, Order.StatusChoices.SHIPPED]

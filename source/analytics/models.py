@@ -77,7 +77,7 @@ class Order(models.Model):
         global_discount = 0.10 * items_total if items_total > 150000 else 0
         discounts = client_discount * items_total + product_discount + global_discount
         subtotal = items_total - discounts
-        vat = Decimal('0.12') * subtotal if self.apply_vat else 0
+        vat = Decimal("0.12") * subtotal if self.apply_vat else 0
         delivery = 0 if subtotal > 2000 else self.delivery_cost
         return subtotal + vat + delivery
 

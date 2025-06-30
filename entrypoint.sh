@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Define a path for our "setup complete" flag file.
-# This path is inside the volume mount, so it will persist across restarts.
 SETUP_FLAG_FILE="/app/source/.setup_complete"
 
 # Wait for the database to be ready
@@ -29,11 +26,9 @@ if [ ! -f "$SETUP_FLAG_FILE" ]; then
     python manage.py loaddata fixtures.json
 
     echo "Initial setup complete. Creating flag file."
-    # Create the flag file to prevent this block from running again.
     touch "$SETUP_FLAG_FILE"
 else
     echo "Setup has already been completed. Skipping fixture loading."
 fi
 
-# Now, execute the command passed into this script (the Gunicorn command)
 exec "$@"
